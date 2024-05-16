@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head th:replace="fragments/commons::head">
+</head>
+<body class="bg-img">
+    <nav th:replace="fragments/commons::nav">
+    </nav>
+
+    <div class="content">
+        <h1><b>Conecta con la bondad</b></h1>
+        <h3>Juntos podemos transformar vidas.Únete a nuestra comunidad solidaria ahora.</h3>
+
+
+        <div id="custom-card" class="card text-center custom-card" style="background-color:rgba(0, 0, 0, 0.7)">
+            <div class="card-body">
+                <p class="card-text">Bienvenido a VoluntaRAPP, la plataforma que conecta a personas que necesitan ayuda con
+                    voluntarios dispuestos a brindar su apoyo. Ya sea que necesites ayuda con tareas diarias o estés listo
+                    para ofrecer tu tiempo y habilidades, VoluntaRAPP está aquí para conectar a la comunidad y hacer que el
+                    mundo sea un lugar mejor. <a href="/formulario-de-registro-comun">Regístrate ahora</a> para unirte a
+                    nuestra red de solidaridad y hacer una diferencia en la vida de alguien hoy mismo. ¡Únete a nosotros y
+                    comienza a marcar la diferencia!</p>
+            </div>
+        </div>
+        <div class="text-center mt-3"> <!-- Contenedor de los botones con margen superior -->
+            <a href="/inicio-sesion-formulario-usuario-necesitado"
+               class="btn btn-transparent btn-lg"
+               style="background-color:rgba(0, 0, 0, 0.7) color:white">Solicito Ayuda</a>
+            <a href="/inicio-sesion-formulario-usuario-voluntario"
+               class="btn btn-transparent btn-lg"
+               style="background-color:rgba(0, 0, 0, 0.7) color:white">Te Ayudo</a>
+
+        </div>
+
+
+        <!-- Agrega los enlaces a los scripts de Bootstrap al final del cuerpo del documento -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </div>
+
+</body>
+
+</html>

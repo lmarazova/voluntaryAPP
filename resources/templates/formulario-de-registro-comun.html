@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org
+http://www.thymeleaf.org ">
+<head th:replace="fragments/commons::head">
+</head>
+<body class="bg-form-color">
+<nav th:replace="fragments/commons::nav">
+</nav>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <a href="/registrar-usuario-voluntario" class="custom-card-link">
+                <div class="btn card  custom-card custom-card-link btn-lg"
+                     style="width: 18rem; background-color: rgba(0, 0, 0, 0.6);">
+
+                    <img src="/images/ofrezco_ayuda.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">Ofrezco Ayuda</p>
+                        <br>
+                        <p>Regístrame</p></div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <a href="/registrar-usuario-necesitado" class="custom-card-link">
+                <div class="btn card custom-card custom-card-link btn-lg"
+                     style="width: 18rem; background-color: rgba(0, 0, 0, 0.6);">
+                    <img src="/images/necesito_ayuda.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">Necesito Ayuda</p>
+                        <br>
+                        <p>Regístrame</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<!-- Agrega los enlaces a los scripts de Bootstrap al final del cuerpo del documento -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

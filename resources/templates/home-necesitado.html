@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head th:replace="fragments/commons::head">
+
+</head>
+<body class="bg-form-necesitado">
+    <nav th:replace="fragments/commons::nav">
+    </nav>
+    <h1><b>Hola, <span th:text ="${nombreUsuario}"></span></b></h1>
+    <h3>Ya no estás solo!</h3>
+
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                        aria-expanded="true" aria-controls="collapseOne">
+                    Mis datos personales
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-mg-12">
+                            <div class="col text-inf">
+                                <div class="mb-3">
+                                    <label class="form-label text-start">Nombre de Usuario: <span th:text ="${nombreUsuario}"></span></label>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label text-start">Nombre: <span th:text ="${nombre}"></span></label>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label text-start">Apellido: <span th:text ="${apellido}"></span></label>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-start">Correo electrónico: <span th:text ="${correoElectronico}"></span></label>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label text-start">Ubicación: <span th:text ="${ubicacion.replace('_', ' ')}"></span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+
+                            <label class="form label text-start">Necesidad:</label>
+                            <p><span th:text="${necesidad.servicio.replace('_', ' ')}"></span></p>
+
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLive">
+                                Cambiar necesidad
+                            </button>
+
+                        </div>
+                        <div class="modal fade" id="exampleModalLive" tabindex="-1" aria-labelledby="exampleModalLiveLabel" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form method = "post" action="/cambiar-habilidad-necesitado">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5 custom-heading"
+                                                id="exampleModalLiveLabel"
+                                            >Cambia la necesidad </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <select name="habilidad" class="form-select">
+                                                <option value="">Selecciona una habilidad...</option>
+                                                <th:block th:each="servicio : ${T(grupo7.volutarapp.model.enums.Servicio).values()}">
+                                                    <option th:value="${servicio}" th:text="${servicio.toString().replace('_', ' ')}"></option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Generar solicitud:
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <!-- Parte izquierda para el botón "Generar solicitud" y el texto -->
+                                <div class="d-flex flex-column">
+                                    <form action="/solicitud/crear" method="post">
+                                    <!--<button type="submit" class="btn btn-primary btn-lg btn-block mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        Generar solicitud
+                                    </button>-->
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                th:if="${solicitudEnProgreso == false or solicitudEnProgreso == null}">
+                                            Generar solicitud
+                                        </button>
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal" disabled
+                                                th:if="${solicitudEnProgreso == true}">
+                                            Generar solicitud
+                                        </button> </form>
+                                    <p class="text-start"
+                                       th:if="${solicitudPendiente == true}">
+                                        Al hacer clic en este botón, se generará una solicitud que se compartirá en nuestra base de datos.
+                                        Pronto, un voluntario dispuesto se pondrá en contacto contigo para ofrecerte su ayuda.
+                                    </p>
+                                    <p class="text-start"
+                                       th:if="${solicitudPendiente != true}">
+                                        Sí ves a este botón desactivado es porqué ya no puedes generar nueva solicitud debido a la que tienes una en progreso. Cuando tengas solucionado tu asunto actual podrás volver a solicitar ayuda.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <!-- Parte derecha para mostrar el contenido de la solicitud -->
+                            <!-- Aquí puedes mostrar el contenido de la solicitud -->
+                            <h3 th:if="${solicitud != null}">
+                            Contenido de la solicitud:</h3>
+                            <!-- Nuevo bloque para mostrar la solicitud -->
+                            <div th:if="${solicitud != null}">
+                                <h4>Descripción:</h4> <span th:text="${solicitud.servicio.toString().replace('_', ' ')}"></span>
+                                <br>
+                                <hr style="border-top: 2px solid yellow;">
+                            </div>
+                            <div th:if="${solicitud != null}">
+                                <h4>Estado:</h4>
+                                <span th:text="${solicitud.estadoSolicitud.toString().replace('_', ' ')}"></span>
+
+                                <br>
+                                <hr style="border-top: 2px solid yellow;">
+
+                                <th:block th:if="${solicitud.usuarioVoluntario == null}">
+                                    <p><h4>Nombre de Voluntario asignado:</h4> Cuando tu solicitud sea atendida se te asignará la persona que te va a ayudar.</p>
+                                    <hr style="border-top: 2px solid yellow;">
+                                    <p><h4>Nota: </h4>Tu solicitud está pendiente de ser atendida. Te informaremos tan pronto como se asigne un voluntario.</p>
+                                    <hr style="border-top: 2px solid yellow;">
+                                </th:block>
+                                <th:block th:if="${solicitud.usuarioVoluntario != null}">
+                                    <p><h4>Nombre de Voluntario asignado:</h4> <span th:text="${solicitud.usuarioVoluntario.nombre}"></span></p>
+                                </th:block>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Te ayudará:
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+                <div class="accordion-body">
+                    <!-- Solo renderizar si hay una solicitud presente -->
+                    <div th:if="${solicitud != null}">
+                        <div class="text-inf" th:if="${solicitud.usuarioVoluntario == null}">
+                            Datos de la persona que te va a ayudar, aparecerán en el momento que tu solicitud sea aceptada
+                        </div>
+                        <div class="text-inf" th:if="${solicitud.usuarioVoluntario != null}">
+                            <h3 class="mb-4" style="font-size: 1.5em;" th:text="${solicitud.usuarioVoluntario.nombre}"></h3>
+                            <form id="mensajeForm">
+                                <input type="hidden" name="subject" value="Mensaje para el voluntario">
+                                <button type="button" class="btn btn-primary" onclick="enviarMensaje()">Enviar Mensaje</button>
+                            </form>
+                            <form id="marcarResueltaForm" method="post" action="/marcar-como-resuelta">
+                                <input type="hidden" id="solicitudId" name="solicitudId" th:value="${solicitud.id}" />
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input" type="checkbox" id="solicitudResuelta" name="solicitudResuelta">
+                                    <label class="form-check-label" for="solicitudResuelta">
+                                        Marcar solicitud como resuelta
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-secondary mt-3">Guardar cambios</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Si no hay una solicitud presente, mostrar un mensaje alternativo -->
+                    <div th:if="${solicitud == null}">
+                        <p>No hay una solicitud disponible en este momento.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Agrega los enlaces a los scripts de Bootstrap al final del cuerpo del documento -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.min.js"></script>
+        <script>
+            // Cerrar panel al hacer clic en el botón
+            $('.accordion-button').click(function() {
+                var $collapse = $(this).closest('.accordion-item').find('.collapse');
+                $('.collapse').not($collapse).collapse('hide');
+            });
+        </script>
+        <!--<script>
+            function marcarComoResuelta() {
+                var solicitudResuelta = document.getElementById('solicitudResuelta').checked;
+                // Aquí puedes enviar la solicitud al servidor para marcarla como resuelta
+                if (solicitudResuelta) {
+                    alert('La solicitud ha sido marcada como resuelta');
+                    // Aquí puedes agregar la lógica para enviar la solicitud al servidor
+                } else {
+                    alert('La solicitud no ha sido marcada como resuelta');
+                }
+            }
+        </script>-->
+
+    </div>
+</body>
+</html>

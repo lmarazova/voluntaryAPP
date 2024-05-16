@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head th:replace="fragments/commons::head">
+
+</head>
+<body class="bg-form-voluntario">
+    <nav th:replace="fragments/commons::nav">
+    </nav>
+    <h1><b></b>Hola, <span th:text ="${nombreUsuario}"></span></b></h1>
+    <h3>Gracias por estar aquí!</h3>
+
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Mis datos personales
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-mg-12">
+                            <div class="col text-inf">
+                                <div class="mb-3">
+                                    <label  class="form-label text-start">Nombre de Usuario: <span th:text ="${nombreUsuario}"></span></label>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label  class="form-label text-start">Nombre: <span th:text ="${nombre}"></span></label>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label  class="form-label text-start">Apellido: <span th:text ="${apellido}"></span></label>
+                                </div>
+                                <div class="mb-3">
+                                    <label  class="form-label text-start">Correo electrónico: <span th:text ="${correoElectronico}"></span></label>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label  class="form-label text-start">Ubicación: <span th:text ="${ubicacion.replace('_', ' ')}"></span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="form-label text-start">Servicios ofrecidos:</label>
+                            <ul class="list-group list-group-flush">
+                                <li th:each="nombreServicio : ${nombresServicios}" class="list-group-item border-0 ps-0 bg-transparent text-white text-start">
+                                    <span th:text="${nombreServicio.replace('_', ' ')}"></span>
+                                </li>
+                            </ul>
+                        </div>
+
+
+
+
+
+                        <div>
+                            <button type="button"
+                                    class="btn btn-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalLive">Añadir servicios</button>
+                        </div>
+
+
+                        <div class="modal fade"
+                             id="exampleModalLive"
+                             tabindex="-1"
+                             aria-labelledby="exampleModalLiveLabel"
+                             style="display: none;"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form method = "post" action="/cambiar-habilidades">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5 custom-heading"
+                                                 id="exampleModalLiveLabel"
+                                                 >Añadir nuevos servicios: </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                         <div class="modal-body">
+                                            <div th:each="servicio : ${T(grupo7.volutarapp.model.enums.Servicio).values()}" style="display: inline-block; margin-right: 10px;">
+                                                <label style="display: inline-block; margin-right: 10px;">
+                                                    <input type="checkbox" id="checkbox-${servicio.name()}" name="habilidades" th:value="${servicio.name()}">
+                                                    <!-- Usar el nombre del servicio con un reemplazo de guión bajo por espacio -->
+                                                    <span style = "color:black" th:text="${#strings.replace(servicio.name(), '_', ' ')}"></span>
+                                                </label>
+                                             </div>
+                                         </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Compromisos de Ayuda
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="text-inf">Lista de las personas a las que quieres ayudar.</div>
+                    <table class="table table-dark table-hover">
+                        <thead>
+                        <tr>
+
+                            <th>Nombre de Usuario</th>
+                            <th>Necesidad</th>
+                            <th>Mandar mensaje</th>
+                            <!-- Agrega más encabezados según tus necesidades -->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Iterar sobre las solicitudes EN_PROGRESO -->
+                        <tr th:each="solicitud : ${solicitudesEnProgreso}">
+
+                            <td th:text="${solicitud.usuarioNecesitado.nombreUsuario}"></td>
+                            <td th:text="${solicitud.usuarioNecesitado.solicitud.servicio.name().replace('_', ' ')}"></td>
+                            <td>
+                                <a th:href="'mailto:' + ${solicitud.usuarioNecesitado.correoElectronico}">
+                                    <button type="button" class="btn btn-primary">Enviar Mensaje</button>
+                                </a>
+                            </td>
+                            <!-- Agregar más columnas según sea necesario -->
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseThree"
+                        aria-expanded="false"
+                        aria-controls="collapseThree">
+                    Oportunidades de Ayuda
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="text-inf"><b>Selecciona por favor personas a las que quieres ayudar y se van a añadir a tu lista de Compromisos de ayuda.
+                    </b><br></div>
+                    <form method="post" action="/guardar-selecciones">
+                        <table class="table table-dark table-hover" >
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre de Usuario</th>
+                                <th>Necesidad</th>
+                                <!-- Agrega más encabezados según tus necesidades -->
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="usuarioNecesitado : ${usuariosNecesitadosDisponibles}">
+                                <td>
+                                    <input type="checkbox" class = "checkbox-small" name="usuariosSeleccionados" th:value="${usuarioNecesitado.id}">
+                                </td>
+                                <td th:text="${usuarioNecesitado.nombreUsuario}"></td>
+                                <td th:text="${usuarioNecesitado.solicitud.servicio.name().replace('_', ' ')}"></td>
+                                <!-- Agrega más columnas según tus necesidades -->
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div style="text-align: left;">
+                            <button type="submit" class="btn btn-primary">Quiero ayudarles!</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Agrega los enlaces a los scripts de Bootstrap al final del cuerpo del documento -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.min.js"></script>
+        <script>
+            // Cerrar panel al hacer clic en el botón
+            $('.accordion-button').click(function() {
+                var $collapse = $(this).closest('.accordion-item').find('.collapse');
+                $('.collapse').not($collapse).collapse('hide');
+            });
+        </script>
+    </div>
+</body>
+</html>

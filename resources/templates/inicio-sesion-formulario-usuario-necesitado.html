@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head th:replace="fragments/commons::head">
+</head>
+<body class="bg-form">
+    <nav th:replace="fragments/commons::nav">
+    </nav>
+    <div class="align-items-center" style="height: calc(100vh - 56px);">
+        <div class="text-center">
+            <h4>Entrar en Perfil de Usuario Necesitado</h4>
+            <div class="linea-negra">
+                <hr>
+            </div>
+            <div class="formulario card mx-auto " style="width: 300px; background-color:rgba(0, 0, 0, 0)">
+                <div class="card-body" style="background-color:rgba(0, 0, 0, 0.7)">
+                    <form th:method="Post"
+                          th:action="@{/inicio-sesion-formulario-usuario-necesitado}"
+                          th:object="${loginNecesitado}">
+
+                        <!--<div class="text-danger"
+                            th:if="${#fields.hasErrors('nombreUsuario')}"
+                            th:errors="*{nombreUsuario}">Error messages
+                       </div>
+
+                       <div class="text-danger"
+                            th:if="${#fields.hasErrors('contrasenya')}"
+                            th:errors="*{contrasenya}">Error messages
+                       </div>-->
+                        <div class="mb-3">
+                            <label for="nombreUsuario" class="form-label">Nombre de Usuario</label>
+                            <!--<input type="text"
+                                   class="form-control"
+                                   id="nombreUsuario"
+                                   name="nombreUsuario"
+                                   th:classappend="${#fields.hasErrors('nombreUsuario')} ? 'bg-danger'"/>-->
+                            <input type="text" class="form-control" id="nombreUsuario" name = "nombreUsuario">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="contrasenya" class="form-label">Contraseña</label>
+                            <!--<input type="password"
+                                   class="form-control"
+                                   id="contrasenya"
+                                   name="contrasenya"
+                                   th:classappend="${#fields.hasErrors('contrasenya')} ? 'bg-danger'"/>-->
+                            <input type="password" class="form-control" id="contrasenya" name = "contrasenya">
+                        </div>
+                        <div th:if="${error}" class="alert alert-danger">
+                            <p th:text="${error}"></p>
+                        </div>
+                        <button type="submit"
+                                class="btn btn-primary">Conectar</button>
+                    </form>
+                </div>
+            </div>
+            <div><br>
+                <p>No tengo cuenta, <a href="/formulario-de-registro-comun">regístrame</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var mensajeError = document.querySelector('.alert-danger');
+
+            // Agregar un controlador de eventos de clic al documento
+            document.addEventListener('click', function(event) {
+                // Verificar si el clic ocurrió dentro del mensaje de error
+                var isClickedInsideErrorMessage = mensajeError.contains(event.target);
+
+                // Si el clic no ocurrió dentro del mensaje de error, ocultarlo
+                if (!isClickedInsideErrorMessage) {
+                    mensajeError.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+    <!-- Agrega los enlaces a los scripts de Bootstrap al final del cuerpo del documento -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
